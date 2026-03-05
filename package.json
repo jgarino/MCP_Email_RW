@@ -28,9 +28,12 @@
     "email",
     "imap",
     "smtp",
-    "pop3"
+    "pop3",
+    "ai",
+    "copilot",
+    "claude"
   ],
-  "author": "",
+  "author": "jgarino",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/jgarino/MCP_Email_RW/issues"

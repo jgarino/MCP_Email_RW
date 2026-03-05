@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "mcp-email-rw": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "env": {
+        "MCP_LOG_LEVEL": "info"
+      }
+    }
+  }
+}
