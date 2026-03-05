@@ -1,5 +1,7 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { ConfigManager } from '../config/config-manager.js';
+import type { AuthManager } from '../auth/auth-manager.js';
+import type { EmailManagerService } from '../services/email-manager.service.js';
 import { logger } from '../utils/logger.js';
 import { registerListAccountsTool } from './auth/list-accounts.tool.js';
 import { registerSetupAccountTool } from './auth/setup-account.tool.js';
@@ -8,7 +10,12 @@ import { registerDetectAuthTool } from './auth/detect-auth.tool.js';
 import { registerRemoveAccountTool } from './auth/remove-account.tool.js';
 import { registerUpdateAccountTool } from './auth/update-account.tool.js';
 
-export function registerAllTools(server: McpServer, configManager: ConfigManager): void {
+export function registerAllTools(
+  server: McpServer,
+  configManager: ConfigManager,
+  _authManager: AuthManager,
+  _emailManager: EmailManagerService,
+): void {
   logger.info('Registering MCP tools...');
 
   // Auth tools

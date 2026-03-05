@@ -13,13 +13,13 @@ async function main(): Promise<void> {
 
     logger.info('Starting MCP Email RW server...');
 
-    const { server, configManager } = createServer();
+    const { server, configManager, authManager, emailManager } = createServer();
 
     // Load config
     await configManager.load();
 
     // Register all MCP tools, resources, and prompts
-    registerAllTools(server, configManager);
+    registerAllTools(server, configManager, authManager, emailManager);
     registerAllResources(server, configManager);
     registerAllPrompts(server, configManager);
 
