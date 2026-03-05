@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "accounts": [
+    {
+      "id": "my-gmail",
+      "name": "Personal Gmail",
+      "email": "user@gmail.com",
+      "enabled": true,
+      "provider": "gmail",
+      "auth": {
+        "method": "app-password",
+        "credentials": {
+          "username": "user@gmail.com",
+          "passwordRef": "env:GMAIL_APP_PASSWORD"
+        }
+      }
+    },
+    {
+      "id": "my-outlook",
+      "name": "Work Outlook",
+      "email": "user@outlook.com",
+      "enabled": false,
+      "provider": "outlook",
+      "auth": {
+        "method": "oauth2",
+        "oauth2": {
+          "clientId": "your-client-id",
+          "clientSecret": "your-client-secret",
+          "redirectUri": "http://localhost:3000/callback",
+          "scopes": [
+            "https://outlook.office365.com/IMAP.AccessAsUser.All",
+            "https://outlook.office365.com/SMTP.Send",
+            "offline_access"
+          ]
+        }
+      }
+    }
+  ],
+  "global": {
+    "logLevel": "info",
+    "timeout": 30000,
+    "maxConnections": 5,
+    "retryAttempts": 3,
+    "retryDelay": 1000
+  }
+}

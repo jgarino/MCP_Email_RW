@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MCP Email RW Configuration",
+  "description": "Configuration schema for the MCP Email RW server",
+  "type": "object",
+  "required": ["version", "accounts"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration schema version"
+    },
+    "accounts": {
+      "type": "array",
+      "description": "List of email accounts",
+      "items": {
+        "$ref": "#/definitions/account"
+      }
+    },
+    "global": {
+      "$ref": "#/definitions/globalConfig"
+    }
+  },
+  "definitions": {
+    "account": {
+      "type": "object",
+      "required": ["id", "name", "email", "enabled", "provider", "auth"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique account identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name for the account"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the account is active"
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["gmail", "outlook", "yahoo", "icloud", "ovh", "ionos", "custom"],
+          "description": "Email provider"
+        },
+        "auth": {
+          "$ref": "#/definitions/authConfig"
+        },
+        "imap": {
+          "$ref": "#/definitions/serverConfig"
+        },
+        "smtp": {
+          "$ref": "#/definitions/serverConfig"
+        },
+        "pop3": {
+          "$ref": "#/definitions/serverConfig"
+        },
+        "preferences": {
+          "$ref": "#/definitions/accountPreferences"
+        }
+      }
+    },
+    "authConfig": {
+      "type": "object",
+      "required": ["method"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["password", "oauth2", "app-password", "xoauth2", "ntlm"],
+          "description": "Authentication method"
+        },
+        "oauth2": {
+          "type": "object",
+          "properties": {
+            "clientId": { "type": "string" },
+            "clientSecret": { "type": "string" },
+            "redirectUri": { "type": "string" },
+            "scopes": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "accessToken": { "type": ["string", "null"] },
+            "refreshToken": { "type": ["string", "null"] },
+            "tokenExpiry": { "type": ["number", "null"] },
+            "tenantId": { "type": "string" }
+          }
+        },
+        "credentials": {
+          "type": "object",
+          "required": ["username", "passwordRef"],
+          "properties": {
+            "username": { "type": "string" },
+            "passwordRef": { "type": "string" }
+          }
+        }
+      }
+    },
+    "serverConfig": {
+      "type": "object",
+      "required": ["host", "port", "secure"],
+      "properties": {
+        "host": { "type": "string" },
+        "port": { "type": "integer" },
+        "secure": { "type": "boolean" },
+        "starttls": { "type": "boolean" },
+        "enabled": { "type": "boolean" }
+      }
+    },
+    "accountPreferences": {
+      "type": "object",
+      "properties": {
+        "defaultProtocol": {
+          "type": "string",
+          "enum": ["imap", "pop3", "smtp"]
+        },
+        "maxEmailsPerFetch": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "syncFolders": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "autoExpunge": { "type": "boolean" }
+      }
+    },
+    "globalConfig": {
+      "type": "object",
+      "properties": {
+        "configDir": { "type": "string" },
+        "logLevel": {
+          "type": "string",
+          "enum": ["debug", "info", "warn", "error"]
+        },
+        "timeout": { "type": "integer", "minimum": 1000 },
+        "maxConnections": { "type": "integer", "minimum": 1 },
+        "retryAttempts": { "type": "integer", "minimum": 0 },
+        "retryDelay": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

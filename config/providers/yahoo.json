@@ -1,0 +1,25 @@
+{
+  "provider": "yahoo",
+  "name": "Yahoo Mail",
+  "domains": ["yahoo.com", "ymail.com", "yahoo.fr", "yahoo.co.uk"],
+  "imap": {
+    "host": "imap.mail.yahoo.com",
+    "port": 993,
+    "secure": true
+  },
+  "smtp": {
+    "host": "smtp.mail.yahoo.com",
+    "port": 465,
+    "secure": true
+  },
+  "pop3": {
+    "host": "pop.mail.yahoo.com",
+    "port": 995,
+    "secure": true
+  },
+  "auth": {
+    "recommended": "app-password",
+    "supported": ["app-password"],
+    "appPasswordUrl": "https://login.yahoo.com/account/security"
+  }
+}

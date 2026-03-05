@@ -1,0 +1,25 @@
+{
+  "provider": "ionos",
+  "name": "IONOS Mail",
+  "domains": [],
+  "domainPatterns": ["*.ionos.com", "*.ionos.fr"],
+  "imap": {
+    "host": "imap.ionos.com",
+    "port": 993,
+    "secure": true
+  },
+  "smtp": {
+    "host": "smtp.ionos.com",
+    "port": 465,
+    "secure": true
+  },
+  "pop3": {
+    "host": "pop.ionos.com",
+    "port": 995,
+    "secure": true
+  },
+  "auth": {
+    "recommended": "password",
+    "supported": ["password"]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "provider": "icloud",
+  "name": "Apple iCloud Mail",
+  "domains": ["icloud.com", "me.com", "mac.com"],
+  "imap": {
+    "host": "imap.mail.me.com",
+    "port": 993,
+    "secure": true
+  },
+  "smtp": {
+    "host": "smtp.mail.me.com",
+    "port": 587,
+    "secure": false,
+    "starttls": true
+  },
+  "auth": {
+    "recommended": "app-password",
+    "supported": ["app-password"],
+    "appPasswordUrl": "https://appleid.apple.com/account/manage"
+  }
+}
