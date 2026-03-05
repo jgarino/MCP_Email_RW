@@ -1,0 +1,22 @@
+{
+  "provider": "ionos",
+  "notes": "IONOS (formerly 1&1) hosted email. Supports standard password authentication over TLS.",
+  "authMethods": ["password"],
+  "imap": {
+    "host": "imap.ionos.com",
+    "port": 993,
+    "secure": true,
+    "starttls": false
+  },
+  "smtp": {
+    "host": "smtp.ionos.com",
+    "port": 465,
+    "secure": true,
+    "starttls": false
+  },
+  "pop3": {
+    "host": "pop.ionos.com",
+    "port": 995,
+    "secure": true
+  }
+}
