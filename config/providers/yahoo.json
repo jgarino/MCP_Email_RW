@@ -1,0 +1,28 @@
+{
+  "provider": "yahoo",
+  "notes": "Yahoo Mail requires an App Password or OAuth2. Enable 'Allow apps that use less secure sign-in' or generate an App Password.",
+  "authMethods": ["app-password", "oauth2"],
+  "imap": {
+    "host": "imap.mail.yahoo.com",
+    "port": 993,
+    "secure": true,
+    "starttls": false
+  },
+  "smtp": {
+    "host": "smtp.mail.yahoo.com",
+    "port": 465,
+    "secure": true,
+    "starttls": false
+  },
+  "pop3": {
+    "host": "pop.mail.yahoo.com",
+    "port": 995,
+    "secure": true
+  },
+  "oauth2": {
+    "authUrl": "https://api.login.yahoo.com/oauth2/request_auth",
+    "tokenUrl": "https://api.login.yahoo.com/oauth2/get_token",
+    "scopes": ["mail-w"],
+    "docs": "https://developer.yahoo.com/oauth2/guide/"
+  }
+}

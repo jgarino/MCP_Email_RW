@@ -1,0 +1,113 @@
+{
+  "$schema": "./schema/accounts.schema.json",
+  "version": "1.0.0",
+  "accounts": [
+    {
+      "id": "my-gmail",
+      "name": "Personal Gmail",
+      "email": "user@gmail.com",
+      "enabled": true,
+      "provider": "gmail",
+      "auth": {
+        "method": "oauth2",
+        "oauth2": {
+          "clientId": "xxxx.apps.googleusercontent.com",
+          "clientSecret": "GOCSPX-xxxx",
+          "redirectUri": "http://localhost:3000/oauth/callback",
+          "scopes": ["https://mail.google.com/"],
+          "accessToken": null,
+          "refreshToken": null,
+          "tokenExpiry": null
+        }
+      },
+      "imap": {
+        "host": "imap.gmail.com",
+        "port": 993,
+        "secure": true,
+        "starttls": false
+      },
+      "smtp": {
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "secure": true,
+        "starttls": false
+      },
+      "pop3": {
+        "host": "pop.gmail.com",
+        "port": 995,
+        "secure": true,
+        "enabled": false
+      },
+      "preferences": {
+        "defaultProtocol": "imap",
+        "maxEmailsPerFetch": 50,
+        "syncFolders": ["INBOX", "[Gmail]/Sent Mail", "[Gmail]/Drafts"],
+        "autoExpunge": false
+      }
+    },
+    {
+      "id": "my-outlook",
+      "name": "Pro Outlook",
+      "email": "user@outlook.com",
+      "enabled": true,
+      "provider": "outlook",
+      "auth": {
+        "method": "oauth2",
+        "oauth2": {
+          "clientId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          "clientSecret": "xxxxx",
+          "redirectUri": "http://localhost:3000/oauth/callback",
+          "scopes": [
+            "https://outlook.office365.com/IMAP.AccessAsUser.All",
+            "https://outlook.office365.com/SMTP.Send",
+            "offline_access"
+          ],
+          "tenantId": "common"
+        }
+      },
+      "imap": {
+        "host": "outlook.office365.com",
+        "port": 993,
+        "secure": true
+      },
+      "smtp": {
+        "host": "smtp.office365.com",
+        "port": 587,
+        "secure": false,
+        "starttls": true
+      }
+    },
+    {
+      "id": "my-ovh",
+      "name": "OVH Email",
+      "email": "contact@mydomain.com",
+      "enabled": true,
+      "provider": "custom",
+      "auth": {
+        "method": "password",
+        "credentials": {
+          "username": "contact@mydomain.com",
+          "passwordRef": "keychain:my-ovh-password"
+        }
+      },
+      "imap": {
+        "host": "ssl0.ovh.net",
+        "port": 993,
+        "secure": true
+      },
+      "smtp": {
+        "host": "ssl0.ovh.net",
+        "port": 465,
+        "secure": true
+      }
+    }
+  ],
+  "global": {
+    "configDir": "~/.mcp-email-rw",
+    "logLevel": "info",
+    "timeout": 30000,
+    "maxConnections": 5,
+    "retryAttempts": 3,
+    "retryDelay": 1000
+  }
+}

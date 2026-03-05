@@ -1,0 +1,28 @@
+{
+  "provider": "gmail",
+  "notes": "Gmail requires OAuth2 or an App Password (must enable 2-Step Verification first).",
+  "authMethods": ["oauth2", "app-password"],
+  "imap": {
+    "host": "imap.gmail.com",
+    "port": 993,
+    "secure": true,
+    "starttls": false
+  },
+  "smtp": {
+    "host": "smtp.gmail.com",
+    "port": 465,
+    "secure": true,
+    "starttls": false
+  },
+  "pop3": {
+    "host": "pop.gmail.com",
+    "port": 995,
+    "secure": true
+  },
+  "oauth2": {
+    "authUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+    "tokenUrl": "https://oauth2.googleapis.com/token",
+    "scopes": ["https://mail.google.com/"],
+    "docs": "https://developers.google.com/gmail/api/guides/auth"
+  }
+}

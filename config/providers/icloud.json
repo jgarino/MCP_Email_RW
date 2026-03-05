@@ -1,0 +1,22 @@
+{
+  "provider": "icloud",
+  "notes": "iCloud Mail requires an App-Specific Password. Generate one at appleid.apple.com under Security > App-Specific Passwords.",
+  "authMethods": ["app-password"],
+  "imap": {
+    "host": "imap.mail.me.com",
+    "port": 993,
+    "secure": true,
+    "starttls": false
+  },
+  "smtp": {
+    "host": "smtp.mail.me.com",
+    "port": 587,
+    "secure": false,
+    "starttls": true
+  },
+  "pop3": {
+    "host": "pop.mail.me.com",
+    "port": 995,
+    "secure": true
+  }
+}

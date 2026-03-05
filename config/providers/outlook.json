@@ -1,0 +1,27 @@
+{
+  "provider": "outlook",
+  "notes": "Microsoft Outlook/365 supports Modern Auth (OAuth2) and App Passwords. Legacy basic auth may be disabled by administrators.",
+  "authMethods": ["oauth2", "app-password"],
+  "imap": {
+    "host": "outlook.office365.com",
+    "port": 993,
+    "secure": true,
+    "starttls": false
+  },
+  "smtp": {
+    "host": "smtp.office365.com",
+    "port": 587,
+    "secure": false,
+    "starttls": true
+  },
+  "oauth2": {
+    "authUrl": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+    "tokenUrl": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
+    "scopes": [
+      "https://outlook.office365.com/IMAP.AccessAsUser.All",
+      "https://outlook.office365.com/SMTP.Send",
+      "offline_access"
+    ],
+    "docs": "https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow"
+  }
+}

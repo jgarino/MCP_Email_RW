@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "mcp-email-rw": {
+      "command": "node",
+      "args": ["${workspaceFolder}/dist/index.js"],
+      "env": {
+        "MCP_EMAIL_CONFIG": "${userHome}/.config/mcp-email-rw/accounts.json",
+        "LOG_LEVEL": "info"
+      }
+    }
+  }
+}

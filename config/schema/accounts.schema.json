@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MCP Email RW — Accounts Configuration Schema",
+  "type": "object",
+  "required": ["version", "accounts"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Schema version (semver)"
+    },
+    "accounts": {
+      "type": "array",
+      "description": "List of configured email accounts",
+      "items": { "$ref": "#/definitions/AccountConfig" }
+    },
+    "global": { "$ref": "#/definitions/GlobalConfig" }
+  },
+  "definitions": {
+    "AccountConfig": {
+      "type": "object",
+      "required": ["id", "name", "email", "enabled", "provider", "auth"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique account identifier (letters, digits, hyphens, underscores)"
+        },
+        "name": { "type": "string", "minLength": 1, "description": "Human-readable account name" },
+        "email": { "type": "string", "format": "email" },
+        "enabled": { "type": "boolean", "description": "Whether this account is active" },
+        "provider": {
+          "type": "string",
+          "enum": ["gmail", "outlook", "yahoo", "icloud", "ovh", "ionos", "custom"]
+        },
+        "auth": { "$ref": "#/definitions/AccountAuth" },
+        "imap": { "$ref": "#/definitions/ImapConfig" },
+        "smtp": { "$ref": "#/definitions/SmtpConfig" },
+        "pop3": { "$ref": "#/definitions/Pop3Config" },
+        "preferences": { "$ref": "#/definitions/AccountPreferences" }
+      }
+    },
+    "AccountAuth": {
+      "type": "object",
+      "required": ["method"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["password", "oauth2", "app-password", "ntlm"]
+        },
+        "credentials": { "$ref": "#/definitions/BasicCredentials" },
+        "oauth2": { "$ref": "#/definitions/OAuth2Config" }
+      }
+    },
+    "BasicCredentials": {
+      "type": "object",
+      "required": ["username"],
+      "additionalProperties": false,
+      "properties": {
+        "username": { "type": "string", "minLength": 1 },
+        "password": { "type": "string", "description": "Plain password (not recommended)" },
+        "passwordRef": {
+          "type": "string",
+          "pattern": "^keychain:.+$",
+          "description": "Keychain reference, e.g. keychain:my-account-password"
+        }
+      }
+    },
+    "OAuth2Config": {
+      "type": "object",
+      "required": ["clientId", "redirectUri", "scopes"],
+      "additionalProperties": false,
+      "properties": {
+        "clientId": { "type": "string", "minLength": 1 },
+        "clientSecret": { "type": "string" },
+        "redirectUri": { "type": "string", "format": "uri" },
+        "scopes": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "accessToken": { "type": ["string", "null"] },
+        "refreshToken": { "type": ["string", "null"] },
+        "tokenExpiry": { "type": ["string", "null"] },
+        "tenantId": { "type": "string", "description": "Microsoft tenant ID (optional)" }
+      }
+    },
+    "ServerConfig": {
+      "type": "object",
+      "required": ["host", "port", "secure"],
+      "properties": {
+        "host": { "type": "string", "minLength": 1 },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "secure": { "type": "boolean", "description": "Use SSL/TLS" },
+        "starttls": { "type": "boolean", "description": "Upgrade to TLS via STARTTLS" }
+      }
+    },
+    "ImapConfig": {
+      "type": "object",
+      "required": ["host", "port", "secure"],
+      "additionalProperties": false,
+      "properties": {
+        "host": { "type": "string", "minLength": 1 },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "secure": { "type": "boolean", "description": "Use SSL/TLS" },
+        "starttls": { "type": "boolean", "description": "Upgrade to TLS via STARTTLS" },
+        "idleTimeout": { "type": "integer", "minimum": 0 },
+        "compression": { "type": "boolean" }
+      }
+    },
+    "SmtpConfig": {
+      "type": "object",
+      "required": ["host", "port", "secure"],
+      "additionalProperties": false,
+      "properties": {
+        "host": { "type": "string", "minLength": 1 },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "secure": { "type": "boolean", "description": "Use SSL/TLS" },
+        "starttls": { "type": "boolean", "description": "Upgrade to TLS via STARTTLS" },
+        "maxMessageSize": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "Pop3Config": {
+      "type": "object",
+      "required": ["host", "port", "secure"],
+      "additionalProperties": false,
+      "properties": {
+        "host": { "type": "string", "minLength": 1 },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "secure": { "type": "boolean", "description": "Use SSL/TLS" },
+        "starttls": { "type": "boolean", "description": "Upgrade to TLS via STARTTLS" },
+        "enabled": { "type": "boolean" },
+        "keepOnServer": { "type": "boolean" }
+      }
+    },
+    "AccountPreferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "defaultProtocol": { "type": "string", "enum": ["imap", "pop3"] },
+        "maxEmailsPerFetch": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "syncFolders": { "type": "array", "items": { "type": "string" } },
+        "autoExpunge": { "type": "boolean" }
+      }
+    },
+    "GlobalConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "configDir": { "type": "string", "minLength": 1 },
+        "logLevel": { "type": "string", "enum": ["debug", "info", "warn", "error"] },
+        "timeout": { "type": "integer", "minimum": 1000 },
+        "maxConnections": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "retryAttempts": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "retryDelay": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

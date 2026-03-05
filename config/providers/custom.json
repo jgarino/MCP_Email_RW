@@ -1,0 +1,22 @@
+{
+  "provider": "custom",
+  "notes": "Manual server configuration. Fill in the host and port values for your email provider.",
+  "authMethods": ["password", "oauth2", "app-password", "ntlm"],
+  "imap": {
+    "host": "imap.yourdomain.com",
+    "port": 993,
+    "secure": true,
+    "starttls": false
+  },
+  "smtp": {
+    "host": "smtp.yourdomain.com",
+    "port": 587,
+    "secure": false,
+    "starttls": true
+  },
+  "pop3": {
+    "host": "pop.yourdomain.com",
+    "port": 995,
+    "secure": true
+  }
+}
