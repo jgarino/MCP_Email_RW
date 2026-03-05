@@ -192,4 +192,22 @@ export class EmailManagerService {
     const imap = await this.getImapService(accountId);
     return imap.getStatus(folder);
   }
+
+  async appendMessage(
+    accountId: string,
+    folder: string,
+    raw: string | Buffer,
+    flags?: string[],
+  ): Promise<void> {
+    const imap = await this.getImapService(accountId);
+    await imap.appendMessage(folder, raw, flags);
+  }
+
+  getAccountEmail(accountId: string): string {
+    const account = this.configManager.getAccount(accountId);
+    if (!account) {
+      throw new ConfigError(`Account "${accountId}" not found`);
+    }
+    return account.email;
+  }
 }

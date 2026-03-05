@@ -17,6 +17,12 @@ import { registerCountNewEmailsTool } from './read/count-new-emails.tool.js';
 import { registerListFoldersTool } from './read/list-folders.tool.js';
 import { registerGetAttachmentTool } from './read/get-attachment.tool.js';
 import { registerGetEmailHeadersTool } from './read/get-email-headers.tool.js';
+import { registerSendEmailTool } from './write/send-email.tool.js';
+import { registerReplyEmailTool } from './write/reply-email.tool.js';
+import { registerForwardEmailTool } from './write/forward-email.tool.js';
+import { registerSaveDraftTool } from './write/save-draft.tool.js';
+import { registerSendDraftTool } from './write/send-draft.tool.js';
+import { registerComposeEmailTool } from './write/compose-email.tool.js';
 
 export function registerAllTools(
   server: McpServer,
@@ -43,6 +49,14 @@ export function registerAllTools(
   registerListFoldersTool(server, emailManager);
   registerGetAttachmentTool(server, emailManager);
   registerGetEmailHeadersTool(server, emailManager);
+
+  // Write tools
+  registerSendEmailTool(server, emailManager);
+  registerReplyEmailTool(server, emailManager);
+  registerForwardEmailTool(server, emailManager);
+  registerSaveDraftTool(server, emailManager);
+  registerSendDraftTool(server, emailManager);
+  registerComposeEmailTool(server, emailManager);
 
   logger.info('All MCP tools registered');
 }
