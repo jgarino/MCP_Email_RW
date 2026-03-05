@@ -31,6 +31,12 @@ import { registerArchiveEmailsTool } from './manage/archive-emails.tool.js';
 import { registerMarkEmailsTool } from './manage/mark-emails.tool.js';
 import { registerCreateFolderTool } from './manage/create-folder.tool.js';
 import { registerDeleteFolderTool } from './manage/delete-folder.tool.js';
+import { registerInboxSummaryTool } from './stats/inbox-summary.tool.js';
+import { registerEmailStatsTool } from './stats/email-stats.tool.js';
+import { registerStorageInfoTool } from './stats/storage-info.tool.js';
+import { registerListImportantEmailsTool } from './stats/list-important-emails.tool.js';
+import { registerSummarizeUnreadTool } from './stats/summarize-unread.tool.js';
+import { registerListDeletableEmailsTool } from './stats/list-deletable-emails.tool.js';
 
 export function registerAllTools(
   server: McpServer,
@@ -75,6 +81,14 @@ export function registerAllTools(
   registerMarkEmailsTool(server, emailManager);
   registerCreateFolderTool(server, emailManager);
   registerDeleteFolderTool(server, emailManager);
+
+  // Stats tools
+  registerInboxSummaryTool(server, emailManager);
+  registerEmailStatsTool(server, emailManager);
+  registerStorageInfoTool(server, emailManager);
+  registerListImportantEmailsTool(server, emailManager);
+  registerSummarizeUnreadTool(server, emailManager);
+  registerListDeletableEmailsTool(server, emailManager);
 
   logger.info('All MCP tools registered');
 }
