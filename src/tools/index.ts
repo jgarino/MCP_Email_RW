@@ -9,12 +9,20 @@ import { registerTestConnectionTool } from './auth/test-connection.tool.js';
 import { registerDetectAuthTool } from './auth/detect-auth.tool.js';
 import { registerRemoveAccountTool } from './auth/remove-account.tool.js';
 import { registerUpdateAccountTool } from './auth/update-account.tool.js';
+import { registerListEmailsTool } from './read/list-emails.tool.js';
+import { registerReadEmailTool } from './read/read-email.tool.js';
+import { registerSearchEmailsTool } from './read/search-emails.tool.js';
+import { registerCountEmailsTool } from './read/count-emails.tool.js';
+import { registerCountNewEmailsTool } from './read/count-new-emails.tool.js';
+import { registerListFoldersTool } from './read/list-folders.tool.js';
+import { registerGetAttachmentTool } from './read/get-attachment.tool.js';
+import { registerGetEmailHeadersTool } from './read/get-email-headers.tool.js';
 
 export function registerAllTools(
   server: McpServer,
   configManager: ConfigManager,
   _authManager: AuthManager,
-  _emailManager: EmailManagerService,
+  emailManager: EmailManagerService,
 ): void {
   logger.info('Registering MCP tools...');
 
@@ -25,6 +33,16 @@ export function registerAllTools(
   registerDetectAuthTool(server);
   registerRemoveAccountTool(server, configManager);
   registerUpdateAccountTool(server, configManager);
+
+  // Read tools
+  registerListEmailsTool(server, emailManager);
+  registerReadEmailTool(server, emailManager);
+  registerSearchEmailsTool(server, emailManager);
+  registerCountEmailsTool(server, emailManager);
+  registerCountNewEmailsTool(server, emailManager);
+  registerListFoldersTool(server, emailManager);
+  registerGetAttachmentTool(server, emailManager);
+  registerGetEmailHeadersTool(server, emailManager);
 
   logger.info('All MCP tools registered');
 }
