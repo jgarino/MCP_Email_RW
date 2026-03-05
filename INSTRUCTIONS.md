@@ -15,6 +15,12 @@
 7. [JSON Account Configuration](#7-json-account-configuration)
 8. [Authentication Assistant](#8-authentication-assistant)
 9. [Exposed MCP Tools](#9-exposed-mcp-tools)
+   - 9.1 [Authentication & Configuration](#91-authentication--configuration)
+   - 9.2 [Reading & Search](#92-reading--search)
+   - 9.3 [Writing & Sending](#93-writing--sending)
+   - 9.4 [Management & Organization](#94-management--organization)
+   - 9.5 [Statistics & Summaries](#95-statistics--summaries)
+   - 9.6 [Protocol-Level Commands (Low-Level MCP Tools)](#96-protocol-level-commands-low-level-mcp-tools)
 10. [Exposed MCP Resources](#10-exposed-mcp-resources)
 11. [Predefined MCP Prompts](#11-predefined-mcp-prompts)
 12. [Security](#12-security)
@@ -142,10 +148,87 @@ MCP_Email_RW/
 │   │   │   ├── mark-emails.tool.ts   # Mark read/unread/important
 │   │   │   ├── archive-emails.tool.ts
 │   │   │   └── purge-old.tool.ts     # Purge by age
-│   │   └── stats/
-│   │       ├── inbox-summary.tool.ts # Mailbox summary
-│   │       ├── new-since.tool.ts     # New since date/last visit
-│   │       └── storage-info.tool.ts  # Storage/quota info
+│   │   ├── stats/
+│   │   │   ├── inbox-summary.tool.ts # Mailbox summary
+│   │   │   ├── new-since.tool.ts     # New since date/last visit
+│   │   │   └── storage-info.tool.ts  # Storage/quota info
+│   │   └── protocol/                 # Low-level protocol command tools
+│   │       ├── index.ts              # Registry of all protocol tools
+│   │       ├── imap/
+│   │       │   ├── read/
+│   │       │   │   ├── IMAP_Read_Capability.tool.ts
+│   │       │   │   ├── IMAP_Read_Noop.tool.ts
+│   │       │   │   ├── IMAP_Read_Login.tool.ts
+│   │       │   │   ├── IMAP_Read_Authenticate.tool.ts
+│   │       │   │   ├── IMAP_Read_Starttls.tool.ts
+│   │       │   │   ├── IMAP_Read_List.tool.ts
+│   │       │   │   ├── IMAP_Read_Lsub.tool.ts
+│   │       │   │   ├── IMAP_Read_Select.tool.ts
+│   │       │   │   ├── IMAP_Read_Examine.tool.ts
+│   │       │   │   ├── IMAP_Read_Status.tool.ts
+│   │       │   │   ├── IMAP_Read_Search.tool.ts
+│   │       │   │   ├── IMAP_Read_Sort.tool.ts
+│   │       │   │   ├── IMAP_Read_Thread.tool.ts
+│   │       │   │   ├── IMAP_Read_Fetch.tool.ts
+│   │       │   │   ├── IMAP_Read_UidFetch.tool.ts
+│   │       │   │   ├── IMAP_Read_UidSearch.tool.ts
+│   │       │   │   ├── IMAP_Read_Namespace.tool.ts
+│   │       │   │   ├── IMAP_Read_GetQuota.tool.ts
+│   │       │   │   ├── IMAP_Read_GetQuotaRoot.tool.ts
+│   │       │   │   ├── IMAP_Read_Idle.tool.ts
+│   │       │   │   └── IMAP_Read_Id.tool.ts
+│   │       │   └── write/
+│   │       │       ├── IMAP_Write_Logout.tool.ts
+│   │       │       ├── IMAP_Write_Close.tool.ts
+│   │       │       ├── IMAP_Write_Expunge.tool.ts
+│   │       │       ├── IMAP_Write_Store.tool.ts
+│   │       │       ├── IMAP_Write_UidStore.tool.ts
+│   │       │       ├── IMAP_Write_Copy.tool.ts
+│   │       │       ├── IMAP_Write_UidCopy.tool.ts
+│   │       │       ├── IMAP_Write_Move.tool.ts
+│   │       │       ├── IMAP_Write_UidMove.tool.ts
+│   │       │       ├── IMAP_Write_Append.tool.ts
+│   │       │       ├── IMAP_Write_Create.tool.ts
+│   │       │       ├── IMAP_Write_Delete.tool.ts
+│   │       │       ├── IMAP_Write_Rename.tool.ts
+│   │       │       ├── IMAP_Write_Subscribe.tool.ts
+│   │       │       ├── IMAP_Write_Unsubscribe.tool.ts
+│   │       │       └── IMAP_Write_SetQuota.tool.ts
+│   │       ├── pop3/
+│   │       │   ├── read/
+│   │       │   │   ├── POP3_Read_User.tool.ts
+│   │       │   │   ├── POP3_Read_Pass.tool.ts
+│   │       │   │   ├── POP3_Read_Apop.tool.ts
+│   │       │   │   ├── POP3_Read_Auth.tool.ts
+│   │       │   │   ├── POP3_Read_Stat.tool.ts
+│   │       │   │   ├── POP3_Read_List.tool.ts
+│   │       │   │   ├── POP3_Read_Retr.tool.ts
+│   │       │   │   ├── POP3_Read_Top.tool.ts
+│   │       │   │   ├── POP3_Read_Uidl.tool.ts
+│   │       │   │   ├── POP3_Read_Capa.tool.ts
+│   │       │   │   ├── POP3_Read_Noop.tool.ts
+│   │       │   │   └── POP3_Read_Stls.tool.ts
+│   │       │   └── write/
+│   │       │       ├── POP3_Write_Dele.tool.ts
+│   │       │       ├── POP3_Write_Rset.tool.ts
+│   │       │       └── POP3_Write_Quit.tool.ts
+│   │       └── smtp/
+│   │           ├── read/
+│   │           │   ├── SMTP_Read_Ehlo.tool.ts
+│   │           │   ├── SMTP_Read_Helo.tool.ts
+│   │           │   ├── SMTP_Read_Noop.tool.ts
+│   │           │   ├── SMTP_Read_Help.tool.ts
+│   │           │   ├── SMTP_Read_Vrfy.tool.ts
+│   │           │   └── SMTP_Read_Expn.tool.ts
+│   │           └── write/
+│   │               ├── SMTP_Write_Auth.tool.ts
+│   │               ├── SMTP_Write_Starttls.tool.ts
+│   │               ├── SMTP_Write_MailFrom.tool.ts
+│   │               ├── SMTP_Write_RcptTo.tool.ts
+│   │               ├── SMTP_Write_Data.tool.ts
+│   │               ├── SMTP_Write_Bdat.tool.ts
+│   │               ├── SMTP_Write_Rset.tool.ts
+│   │               └── SMTP_Write_Quit.tool.ts
 │   │
 │   ├── resources/                    # MCP resources (data)
 │   │   ├── index.ts
@@ -258,23 +341,52 @@ MCP_Email_RW/
 
 **Role**: Read/write access to emails on the server side (synchronization).
 
-| Command | Usage in the Project |
-|---|---|
-| `LOGIN` / `AUTHENTICATE` | Connect to the server |
-| `LIST` | List folders (INBOX, Sent, Drafts, Trash…) |
-| `SELECT` / `EXAMINE` | Open a folder (read-write / read-only) |
-| `SEARCH` / `SORT` | Search by criteria (FROM, SUBJECT, DATE, BODY, FLAGS…) |
-| `FETCH` | Retrieve the content of one or more emails |
-| `STORE` | Modify flags (\Seen, \Deleted, \Flagged…) |
-| `COPY` / `MOVE` | Copy/move between folders |
-| `EXPUNGE` | Permanently delete emails marked \Deleted |
-| `APPEND` | Add an email to a folder (drafts, sent) |
-| `IDLE` | Real-time listening for new emails |
-| `NAMESPACE` | Folder hierarchy detection |
-| `STATUS` | Folder statistics (MESSAGES, UNSEEN, RECENT) |
-| `CAPABILITY` | Supported extensions detection |
-| `UID` | UID variants of FETCH, STORE, COPY, SEARCH |
-| `QUOTA` / `GETQUOTAROOT` | Quota information |
+#### 5.1.1 IMAP Read Commands
+
+| Command | MCP Tool Name | Description |
+|---|---|---|
+| `CAPABILITY` | `IMAP_Read_Capability` | List server capabilities and supported extensions |
+| `NOOP` | `IMAP_Read_Noop` | Keep connection alive / poll for new updates |
+| `LOGIN` | `IMAP_Read_Login` | Authenticate with username and password |
+| `AUTHENTICATE` | `IMAP_Read_Authenticate` | Authenticate with a SASL mechanism (PLAIN, XOAUTH2…) |
+| `STARTTLS` | `IMAP_Read_Starttls` | Negotiate TLS encryption on a plain connection |
+| `LIST` | `IMAP_Read_List` | List available mailboxes/folders |
+| `LSUB` | `IMAP_Read_Lsub` | List subscribed mailboxes |
+| `SELECT` | `IMAP_Read_Select` | Open a mailbox in read-write mode |
+| `EXAMINE` | `IMAP_Read_Examine` | Open a mailbox in read-only mode |
+| `STATUS` | `IMAP_Read_Status` | Get mailbox statistics (MESSAGES, UNSEEN, RECENT, UIDNEXT…) |
+| `SEARCH` | `IMAP_Read_Search` | Search messages by criteria (FROM, SUBJECT, DATE, BODY, FLAGS…) |
+| `SORT` | `IMAP_Read_Sort` | Sort search results by a given criterion (extension RFC 5256) |
+| `THREAD` | `IMAP_Read_Thread` | Thread messages by subject or references (extension RFC 5256) |
+| `FETCH` | `IMAP_Read_Fetch` | Retrieve message data (headers, body, flags, envelope…) |
+| `UID FETCH` | `IMAP_Read_UidFetch` | Retrieve message data using persistent UIDs |
+| `UID SEARCH` | `IMAP_Read_UidSearch` | Search messages and return UIDs |
+| `NAMESPACE` | `IMAP_Read_Namespace` | Discover folder hierarchy separator and namespaces |
+| `GETQUOTA` | `IMAP_Read_GetQuota` | Get quota usage for a named resource |
+| `GETQUOTAROOT` | `IMAP_Read_GetQuotaRoot` | Get quota roots for a mailbox |
+| `IDLE` | `IMAP_Read_Idle` | Subscribe to real-time server notifications (new mail, flag changes) |
+| `ID` | `IMAP_Read_Id` | Exchange client/server identity information (extension RFC 2971) |
+
+#### 5.1.2 IMAP Write Commands
+
+| Command | MCP Tool Name | Description |
+|---|---|---|
+| `LOGOUT` | `IMAP_Write_Logout` | Gracefully disconnect from the server |
+| `CLOSE` | `IMAP_Write_Close` | Close selected mailbox with implicit expunge of \Deleted messages |
+| `EXPUNGE` | `IMAP_Write_Expunge` | Permanently remove all messages flagged \Deleted |
+| `STORE` | `IMAP_Write_Store` | Set, add, or remove flags on one or more messages |
+| `UID STORE` | `IMAP_Write_UidStore` | Set, add, or remove flags using persistent UIDs |
+| `COPY` | `IMAP_Write_Copy` | Copy messages to another mailbox |
+| `UID COPY` | `IMAP_Write_UidCopy` | Copy messages to another mailbox using UIDs |
+| `MOVE` | `IMAP_Write_Move` | Atomically move messages to another mailbox (extension RFC 6851) |
+| `UID MOVE` | `IMAP_Write_UidMove` | Atomically move messages using UIDs (extension RFC 6851) |
+| `APPEND` | `IMAP_Write_Append` | Append a message to a mailbox (drafts, sent items…) |
+| `CREATE` | `IMAP_Write_Create` | Create a new mailbox |
+| `DELETE` | `IMAP_Write_Delete` | Delete a mailbox and all its contents |
+| `RENAME` | `IMAP_Write_Rename` | Rename a mailbox |
+| `SUBSCRIBE` | `IMAP_Write_Subscribe` | Subscribe to a mailbox |
+| `UNSUBSCRIBE` | `IMAP_Write_Unsubscribe` | Unsubscribe from a mailbox |
+| `SETQUOTA` | `IMAP_Write_SetQuota` | Set quota limit for a named resource |
 
 **Supported IMAP extensions**: CONDSTORE, QRESYNC, SPECIAL-USE, MOVE, SORT, THREAD, ID, COMPRESS.
 
@@ -284,21 +396,30 @@ MCP_Email_RW/
 
 **Role**: Simple email download (no server-side synchronization).
 
-| Command | Usage |
-|---|---|
-| `USER` / `PASS` | Basic authentication |
-| `APOP` | Hash-based authentication |
-| `AUTH` | Extended authentication (PLAIN, LOGIN, CRAM-MD5, XOAUTH2) |
-| `STAT` | Number and total size of emails |
-| `LIST` | List of emails with sizes |
-| `RETR` | Retrieve a complete email |
-| `TOP` | Retrieve headers only + first N lines |
-| `DELE` | Mark an email for deletion |
-| `RSET` | Cancel session deletions |
-| `QUIT` | Disconnect (applies deletions) |
-| `UIDL` | Unique message identifiers |
-| `CAPA` | List server capabilities |
-| `NOOP` | Keep connection alive |
+#### 5.2.1 POP3 Read Commands
+
+| Command | MCP Tool Name | Description |
+|---|---|---|
+| `USER` | `POP3_Read_User` | Send username for authentication |
+| `PASS` | `POP3_Read_Pass` | Send password for authentication |
+| `APOP` | `POP3_Read_Apop` | Hash-based (MD5 challenge-response) authentication |
+| `AUTH` | `POP3_Read_Auth` | SASL-based authentication (PLAIN, LOGIN, CRAM-MD5, XOAUTH2) |
+| `STAT` | `POP3_Read_Stat` | Get total number of messages and total mailbox size |
+| `LIST` | `POP3_Read_List` | List messages with their individual sizes |
+| `RETR` | `POP3_Read_Retr` | Retrieve a complete message by number |
+| `TOP` | `POP3_Read_Top` | Retrieve message headers and first N body lines |
+| `UIDL` | `POP3_Read_Uidl` | Get unique persistent identifiers for messages |
+| `CAPA` | `POP3_Read_Capa` | List server capabilities |
+| `NOOP` | `POP3_Read_Noop` | Keep connection alive (no-operation) |
+| `STLS` | `POP3_Read_Stls` | Negotiate TLS encryption on a plain connection |
+
+#### 5.2.2 POP3 Write Commands
+
+| Command | MCP Tool Name | Description |
+|---|---|---|
+| `DELE` | `POP3_Write_Dele` | Mark a message for deletion (applied at QUIT) |
+| `RSET` | `POP3_Write_Rset` | Cancel all pending deletions in the current session |
+| `QUIT` | `POP3_Write_Quit` | Disconnect and apply all pending deletions |
 
 **Ports**: 995 (SSL/TLS), 110 (STARTTLS)
 
@@ -306,18 +427,29 @@ MCP_Email_RW/
 
 **Role**: Sending emails.
 
-| Command | Usage |
-|---|---|
-| `EHLO` / `HELO` | Identify to the server |
-| `AUTH` | Authentication (PLAIN, LOGIN, CRAM-MD5, XOAUTH2) |
-| `MAIL FROM` | Set the sender |
-| `RCPT TO` | Set the recipient(s) |
-| `DATA` | Message body (headers + MIME body) |
-| `STARTTLS` | Switch to encrypted connection |
-| `QUIT` | Close the connection |
-| `RSET` | Cancel the current transaction |
-| `VRFY` | Verify an address (often disabled) |
-| `SIZE` | Maximum message size |
+#### 5.3.1 SMTP Read Commands
+
+| Command | MCP Tool Name | Description |
+|---|---|---|
+| `EHLO` | `SMTP_Read_Ehlo` | Extended greeting — identify client and discover server capabilities |
+| `HELO` | `SMTP_Read_Helo` | Basic greeting (legacy, no capability discovery) |
+| `NOOP` | `SMTP_Read_Noop` | Keep connection alive (no-operation) |
+| `HELP` | `SMTP_Read_Help` | Request help information about available commands |
+| `VRFY` | `SMTP_Read_Vrfy` | Verify that an email address is valid (often disabled by servers) |
+| `EXPN` | `SMTP_Read_Expn` | Expand a mailing list alias into its members (often disabled) |
+
+#### 5.3.2 SMTP Write Commands
+
+| Command | MCP Tool Name | Description |
+|---|---|---|
+| `AUTH` | `SMTP_Write_Auth` | Authenticate to the server (PLAIN, LOGIN, CRAM-MD5, XOAUTH2) |
+| `STARTTLS` | `SMTP_Write_Starttls` | Upgrade a plain connection to TLS encryption |
+| `MAIL FROM` | `SMTP_Write_MailFrom` | Set the sender address and begin a new mail transaction |
+| `RCPT TO` | `SMTP_Write_RcptTo` | Add a recipient to the current mail transaction |
+| `DATA` | `SMTP_Write_Data` | Transmit the message body (headers + MIME body) |
+| `BDAT` | `SMTP_Write_Bdat` | Transmit a binary data chunk (CHUNKING extension RFC 3030) |
+| `RSET` | `SMTP_Write_Rset` | Abort the current mail transaction without closing the connection |
+| `QUIT` | `SMTP_Write_Quit` | Close the SMTP connection gracefully |
 
 **Ports**: 465 (SSL/TLS, submission), 587 (STARTTLS, submission), 25 (relay, rarely used)
 
@@ -639,6 +771,110 @@ Each tool is a function callable by the AI with typed parameters.
 | `summarize_unread` | AI summary of unread emails | `accountId, limit?` |
 | `list_deletable_emails` | Suggests deletable emails | `accountId, criteria?` |
 
+### 9.6 Protocol-Level Commands (Low-Level MCP Tools)
+
+These tools expose individual protocol commands directly to the AI. Each tool maps to a single RFC-defined command and is named according to the convention `{PROTOCOL}_{OperationType}_{CommandName}`.
+
+> **Naming convention**: `{PROTOCOL}_{Read|Write}_{CommandName}`
+> - **Read** — retrieves data, queries state, or negotiates a connection (non-destructive).
+> - **Write** — modifies server state, sends data, or performs a destructive action.
+
+#### 9.6.1 IMAP Read Commands
+
+| Tool | Protocol Command | Description | Main Parameters |
+|---|---|---|---|
+| `IMAP_Read_Capability` | `CAPABILITY` | List server capabilities and extensions | `accountId` |
+| `IMAP_Read_Noop` | `NOOP` | Keep connection alive / poll for updates | `accountId` |
+| `IMAP_Read_Login` | `LOGIN` | Authenticate with username/password | `accountId, username, password` |
+| `IMAP_Read_Authenticate` | `AUTHENTICATE` | Authenticate with a SASL mechanism | `accountId, mechanism, credentials` |
+| `IMAP_Read_Starttls` | `STARTTLS` | Negotiate TLS on a plain connection | `accountId` |
+| `IMAP_Read_List` | `LIST` | List available mailboxes/folders | `accountId, reference?, pattern?` |
+| `IMAP_Read_Lsub` | `LSUB` | List subscribed mailboxes | `accountId, reference?, pattern?` |
+| `IMAP_Read_Select` | `SELECT` | Open a mailbox in read-write mode | `accountId, mailbox` |
+| `IMAP_Read_Examine` | `EXAMINE` | Open a mailbox in read-only mode | `accountId, mailbox` |
+| `IMAP_Read_Status` | `STATUS` | Get mailbox statistics | `accountId, mailbox, items` |
+| `IMAP_Read_Search` | `SEARCH` | Search messages by criteria | `accountId, criteria` |
+| `IMAP_Read_Sort` | `SORT` | Sort search results (RFC 5256) | `accountId, sortCriteria, searchCriteria` |
+| `IMAP_Read_Thread` | `THREAD` | Thread messages (RFC 5256) | `accountId, algorithm, searchCriteria` |
+| `IMAP_Read_Fetch` | `FETCH` | Fetch message data | `accountId, sequenceSet, dataItems` |
+| `IMAP_Read_UidFetch` | `UID FETCH` | Fetch message data by UID | `accountId, uidSet, dataItems` |
+| `IMAP_Read_UidSearch` | `UID SEARCH` | Search messages and return UIDs | `accountId, criteria` |
+| `IMAP_Read_Namespace` | `NAMESPACE` | Discover folder namespaces | `accountId` |
+| `IMAP_Read_GetQuota` | `GETQUOTA` | Get quota for a named resource | `accountId, quotaRoot` |
+| `IMAP_Read_GetQuotaRoot` | `GETQUOTAROOT` | Get quota roots for a mailbox | `accountId, mailbox` |
+| `IMAP_Read_Idle` | `IDLE` | Subscribe to real-time server notifications | `accountId` |
+| `IMAP_Read_Id` | `ID` | Exchange client/server identity (RFC 2971) | `accountId, clientInfo?` |
+
+#### 9.6.2 IMAP Write Commands
+
+| Tool | Protocol Command | Description | Main Parameters |
+|---|---|---|---|
+| `IMAP_Write_Logout` | `LOGOUT` | Gracefully disconnect from the server | `accountId` |
+| `IMAP_Write_Close` | `CLOSE` | Close mailbox with implicit expunge of \Deleted | `accountId` |
+| `IMAP_Write_Expunge` | `EXPUNGE` | Permanently remove \Deleted messages | `accountId` |
+| `IMAP_Write_Store` | `STORE` | Modify flags on messages | `accountId, sequenceSet, flagOperation, flags` |
+| `IMAP_Write_UidStore` | `UID STORE` | Modify flags by UID | `accountId, uidSet, flagOperation, flags` |
+| `IMAP_Write_Copy` | `COPY` | Copy messages to another mailbox | `accountId, sequenceSet, targetMailbox` |
+| `IMAP_Write_UidCopy` | `UID COPY` | Copy messages by UID | `accountId, uidSet, targetMailbox` |
+| `IMAP_Write_Move` | `MOVE` | Atomically move messages (RFC 6851) | `accountId, sequenceSet, targetMailbox` |
+| `IMAP_Write_UidMove` | `UID MOVE` | Atomically move messages by UID (RFC 6851) | `accountId, uidSet, targetMailbox` |
+| `IMAP_Write_Append` | `APPEND` | Append a message to a mailbox | `accountId, mailbox, message, flags?, date?` |
+| `IMAP_Write_Create` | `CREATE` | Create a new mailbox | `accountId, mailboxName` |
+| `IMAP_Write_Delete` | `DELETE` | Delete a mailbox and all its contents | `accountId, mailboxName` |
+| `IMAP_Write_Rename` | `RENAME` | Rename a mailbox | `accountId, existingName, newName` |
+| `IMAP_Write_Subscribe` | `SUBSCRIBE` | Subscribe to a mailbox | `accountId, mailboxName` |
+| `IMAP_Write_Unsubscribe` | `UNSUBSCRIBE` | Unsubscribe from a mailbox | `accountId, mailboxName` |
+| `IMAP_Write_SetQuota` | `SETQUOTA` | Set quota limit for a resource | `accountId, quotaRoot, limits` |
+
+#### 9.6.3 POP3 Read Commands
+
+| Tool | Protocol Command | Description | Main Parameters |
+|---|---|---|---|
+| `POP3_Read_User` | `USER` | Send username for authentication | `accountId, username` |
+| `POP3_Read_Pass` | `PASS` | Send password for authentication | `accountId, password` |
+| `POP3_Read_Apop` | `APOP` | MD5 challenge-response authentication | `accountId, username, digest` |
+| `POP3_Read_Auth` | `AUTH` | SASL-based authentication | `accountId, mechanism, credentials` |
+| `POP3_Read_Stat` | `STAT` | Get total message count and mailbox size | `accountId` |
+| `POP3_Read_List` | `LIST` | List messages with their sizes | `accountId, msgNumber?` |
+| `POP3_Read_Retr` | `RETR` | Retrieve a complete message | `accountId, msgNumber` |
+| `POP3_Read_Top` | `TOP` | Retrieve message headers + first N body lines | `accountId, msgNumber, lineCount` |
+| `POP3_Read_Uidl` | `UIDL` | Get unique persistent identifiers | `accountId, msgNumber?` |
+| `POP3_Read_Capa` | `CAPA` | List server capabilities | `accountId` |
+| `POP3_Read_Noop` | `NOOP` | Keep connection alive | `accountId` |
+| `POP3_Read_Stls` | `STLS` | Negotiate TLS on a plain connection | `accountId` |
+
+#### 9.6.4 POP3 Write Commands
+
+| Tool | Protocol Command | Description | Main Parameters |
+|---|---|---|---|
+| `POP3_Write_Dele` | `DELE` | Mark a message for deletion (applied at QUIT) | `accountId, msgNumber` |
+| `POP3_Write_Rset` | `RSET` | Cancel all pending deletions in the session | `accountId` |
+| `POP3_Write_Quit` | `QUIT` | Disconnect and apply all pending deletions | `accountId` |
+
+#### 9.6.5 SMTP Read Commands
+
+| Tool | Protocol Command | Description | Main Parameters |
+|---|---|---|---|
+| `SMTP_Read_Ehlo` | `EHLO` | Extended greeting and capability discovery | `accountId, clientHostname` |
+| `SMTP_Read_Helo` | `HELO` | Basic greeting (legacy, no capabilities) | `accountId, clientHostname` |
+| `SMTP_Read_Noop` | `NOOP` | Keep connection alive | `accountId` |
+| `SMTP_Read_Help` | `HELP` | Request help about available commands | `accountId, command?` |
+| `SMTP_Read_Vrfy` | `VRFY` | Verify that an email address is deliverable | `accountId, address` |
+| `SMTP_Read_Expn` | `EXPN` | Expand a mailing list alias into its members | `accountId, listName` |
+
+#### 9.6.6 SMTP Write Commands
+
+| Tool | Protocol Command | Description | Main Parameters |
+|---|---|---|---|
+| `SMTP_Write_Auth` | `AUTH` | Authenticate to the SMTP server | `accountId, mechanism, credentials` |
+| `SMTP_Write_Starttls` | `STARTTLS` | Upgrade connection to TLS encryption | `accountId` |
+| `SMTP_Write_MailFrom` | `MAIL FROM` | Set the sender and begin a mail transaction | `accountId, senderAddress, size?` |
+| `SMTP_Write_RcptTo` | `RCPT TO` | Add a recipient to the current transaction | `accountId, recipientAddress` |
+| `SMTP_Write_Data` | `DATA` | Transmit the full message (headers + MIME body) | `accountId, messageContent` |
+| `SMTP_Write_Bdat` | `BDAT` | Transmit a binary data chunk (RFC 3030 CHUNKING) | `accountId, chunk, last?` |
+| `SMTP_Write_Rset` | `RSET` | Abort the current mail transaction | `accountId` |
+| `SMTP_Write_Quit` | `QUIT` | Close the SMTP connection gracefully | `accountId` |
+
 ---
 
 ## 10. Exposed MCP Resources
@@ -774,7 +1010,48 @@ Destructive operations offer a `dryRun: true` mode that lists actions without ex
 - [ ] All predefined MCP prompts
 - [ ] Tests
 
-### Phase 8 — Polish & Distribution (Weeks 14-15)
+### Phase 7b — Protocol-Level Command Tools (Week 14)
+
+Expose all individual protocol commands as dedicated MCP tools following the `{PROTOCOL}_{Read|Write}_{CommandName}` naming convention (see Section 9.6).
+
+**IMAP Read tools** (21 commands):
+- [ ] `IMAP_Read_Capability`, `IMAP_Read_Noop`, `IMAP_Read_Login`, `IMAP_Read_Authenticate`, `IMAP_Read_Starttls`
+- [ ] `IMAP_Read_List`, `IMAP_Read_Lsub`, `IMAP_Read_Select`, `IMAP_Read_Examine`, `IMAP_Read_Status`
+- [ ] `IMAP_Read_Search`, `IMAP_Read_Sort`, `IMAP_Read_Thread`
+- [ ] `IMAP_Read_Fetch`, `IMAP_Read_UidFetch`, `IMAP_Read_UidSearch`
+- [ ] `IMAP_Read_Namespace`, `IMAP_Read_GetQuota`, `IMAP_Read_GetQuotaRoot`
+- [ ] `IMAP_Read_Idle`, `IMAP_Read_Id`
+
+**IMAP Write tools** (16 commands):
+- [ ] `IMAP_Write_Logout`, `IMAP_Write_Close`, `IMAP_Write_Expunge`
+- [ ] `IMAP_Write_Store`, `IMAP_Write_UidStore`
+- [ ] `IMAP_Write_Copy`, `IMAP_Write_UidCopy`, `IMAP_Write_Move`, `IMAP_Write_UidMove`
+- [ ] `IMAP_Write_Append`
+- [ ] `IMAP_Write_Create`, `IMAP_Write_Delete`, `IMAP_Write_Rename`
+- [ ] `IMAP_Write_Subscribe`, `IMAP_Write_Unsubscribe`
+- [ ] `IMAP_Write_SetQuota`
+
+**POP3 Read tools** (12 commands):
+- [ ] `POP3_Read_User`, `POP3_Read_Pass`, `POP3_Read_Apop`, `POP3_Read_Auth`
+- [ ] `POP3_Read_Stat`, `POP3_Read_List`, `POP3_Read_Retr`, `POP3_Read_Top`, `POP3_Read_Uidl`
+- [ ] `POP3_Read_Capa`, `POP3_Read_Noop`, `POP3_Read_Stls`
+
+**POP3 Write tools** (3 commands):
+- [ ] `POP3_Write_Dele`, `POP3_Write_Rset`, `POP3_Write_Quit`
+
+**SMTP Read tools** (6 commands):
+- [ ] `SMTP_Read_Ehlo`, `SMTP_Read_Helo`, `SMTP_Read_Noop`
+- [ ] `SMTP_Read_Help`, `SMTP_Read_Vrfy`, `SMTP_Read_Expn`
+
+**SMTP Write tools** (8 commands):
+- [ ] `SMTP_Write_Auth`, `SMTP_Write_Starttls`
+- [ ] `SMTP_Write_MailFrom`, `SMTP_Write_RcptTo`, `SMTP_Write_Data`, `SMTP_Write_Bdat`
+- [ ] `SMTP_Write_Rset`, `SMTP_Write_Quit`
+
+- [ ] Protocol command unit tests (mocked services)
+- [ ] Integration tests with GreenMail for all 66 protocol command tools
+
+### Phase 8 — Polish & Distribution (Weeks 15-16)
 
 - [ ] Complete documentation (README, SETUP, AUTHENTICATION, TOOLS_REFERENCE, PROVIDERS)
 - [ ] CI/CD GitHub Actions
@@ -1019,11 +1296,21 @@ jobs:
 | **v0.3.0** | POP3 + all auth methods |
 | **v0.4.0** | Management tools (delete, move, archive, purge) |
 | **v0.5.0** | Statistics, summaries, AI prompts |
+| **v0.6.0** | Full protocol-level MCP tools: all 66 commands prefixed with `IMAP_Read_`, `IMAP_Write_`, `POP3_Read_`, `POP3_Write_`, `SMTP_Read_`, `SMTP_Write_` (see Section 9.6) |
 | **v1.0.0** | Production-ready, complete documentation, npm publication |
-| **v1.1.0** | IDLE support (real-time notifications) |
+| **v1.1.0** | IDLE support (real-time notifications via `IMAP_Read_Idle`) |
 | **v1.2.0** | Simultaneous multi-account |
 | **v1.5.0** | Native VS Code extension with UI |
 | **v2.0.0** | Calendar support (CalDAV), contacts (CardDAV) |
+
+### Protocol Command Coverage Summary (v0.6.0 target)
+
+| Protocol | Read Commands | Write Commands | Total |
+|---|---|---|---|
+| IMAP | 21 | 16 | 37 |
+| POP3 | 12 | 3 | 15 |
+| SMTP | 6 | 8 | 14 |
+| **Total** | **39** | **27** | **66** |
 
 ---
 
@@ -1060,4 +1347,4 @@ npm publish --access public
 
 ---
 
-*Document generated on March 4, 2026 — GPL-3.0 License*
+*Document generated on March 4, 2026 — Updated March 5, 2026 (protocol command list, Section 5, 9.6, project structure, phases, roadmap) — GPL-3.0 License*
