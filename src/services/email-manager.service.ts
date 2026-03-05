@@ -12,6 +12,7 @@ import type {
   FolderStatus,
   StorageQuota,
 } from '../types/email.types.js';
+import type { Provider } from '../config/types.js';
 import { ConfigError, ConnectionError } from '../utils/errors.js';
 import { logger } from '../utils/logger.js';
 
@@ -209,5 +210,13 @@ export class EmailManagerService {
       throw new ConfigError(`Account "${accountId}" not found`);
     }
     return account.email;
+  }
+
+  getAccountProvider(accountId: string): Provider {
+    const account = this.configManager.getAccount(accountId);
+    if (!account) {
+      throw new ConfigError(`Account "${accountId}" not found`);
+    }
+    return account.provider;
   }
 }

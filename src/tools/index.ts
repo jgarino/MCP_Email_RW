@@ -23,6 +23,14 @@ import { registerForwardEmailTool } from './write/forward-email.tool.js';
 import { registerSaveDraftTool } from './write/save-draft.tool.js';
 import { registerSendDraftTool } from './write/send-draft.tool.js';
 import { registerComposeEmailTool } from './write/compose-email.tool.js';
+import { registerDeleteEmailsTool } from './manage/delete-emails.tool.js';
+import { registerDeleteEmailsFilteredTool } from './manage/delete-emails-filtered.tool.js';
+import { registerPurgeOldEmailsTool } from './manage/purge-old-emails.tool.js';
+import { registerMoveEmailsTool } from './manage/move-emails.tool.js';
+import { registerArchiveEmailsTool } from './manage/archive-emails.tool.js';
+import { registerMarkEmailsTool } from './manage/mark-emails.tool.js';
+import { registerCreateFolderTool } from './manage/create-folder.tool.js';
+import { registerDeleteFolderTool } from './manage/delete-folder.tool.js';
 
 export function registerAllTools(
   server: McpServer,
@@ -57,6 +65,16 @@ export function registerAllTools(
   registerSaveDraftTool(server, emailManager);
   registerSendDraftTool(server, emailManager);
   registerComposeEmailTool(server, emailManager);
+
+  // Manage tools
+  registerDeleteEmailsTool(server, emailManager);
+  registerDeleteEmailsFilteredTool(server, emailManager);
+  registerPurgeOldEmailsTool(server, emailManager);
+  registerMoveEmailsTool(server, emailManager);
+  registerArchiveEmailsTool(server, emailManager);
+  registerMarkEmailsTool(server, emailManager);
+  registerCreateFolderTool(server, emailManager);
+  registerDeleteFolderTool(server, emailManager);
 
   logger.info('All MCP tools registered');
 }
