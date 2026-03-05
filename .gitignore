@@ -1,33 +1,26 @@
-# Dependencies
-node_modules/
-
-# Build output
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
 dist/
-
-# Environment variables
+*.egg-info/
+.eggs/
+*.egg
+MANIFEST
 .env
-.env.local
-.env.*.local
-
-# Logs
-logs/
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
 *.log
-npm-debug.log*
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Editor
-.idea/
-*.swp
-*.swo
-
-# Coverage
-coverage/
-
-# TypeScript
-*.tsbuildinfo
-
-# Config files with secrets (never commit the real one)
-config/accounts.json
+config.json

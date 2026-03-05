@@ -1,0 +1,43 @@
+{
+  "accounts": [
+    {
+      "name": "gmail-work",
+      "protocol": "imap",
+      "host": "imap.gmail.com",
+      "port": 993,
+      "ssl": true,
+      "username": "you@gmail.com",
+      "password": "your-app-password",
+      "smtp_host": "smtp.gmail.com",
+      "smtp_port": 587,
+      "smtp_ssl": false,
+      "smtp_tls": true
+    },
+    {
+      "name": "outlook",
+      "protocol": "imap",
+      "host": "outlook.office365.com",
+      "port": 993,
+      "ssl": true,
+      "username": "you@outlook.com",
+      "password": "your-password",
+      "smtp_host": "smtp-mail.outlook.com",
+      "smtp_port": 587,
+      "smtp_ssl": false,
+      "smtp_tls": true
+    },
+    {
+      "name": "personal-pop3",
+      "protocol": "pop3",
+      "host": "pop.example.com",
+      "port": 995,
+      "ssl": true,
+      "username": "you@example.com",
+      "password": "your-password",
+      "smtp_host": "smtp.example.com",
+      "smtp_port": 465,
+      "smtp_ssl": true,
+      "smtp_tls": false
+    }
+  ]
+}
