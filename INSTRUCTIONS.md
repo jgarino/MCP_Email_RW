@@ -87,8 +87,8 @@ All through **natural dialogue with the AI**, without the user needing to know t
 | Component | Technology | Rationale |
 |---|---|---|
 | **Runtime** | Node.js ≥ 20 | Official MCP ecosystem, broad support |
-| **Language** | TypeScript 5.x | Strong typing, maintainability |
-| **SDK MCP** | `@modelcontextprotocol/sdk` | SDK officiel MCP |
+| **Language** | TypeScript / JavaScript (TypeScript 5.x) | Strong typing, maintainability, standard for native MCP projects |
+| **SDK MCP** | `@modelcontextprotocol/sdk` | Official MCP SDK |
 | **Transport** | stdio (default) + SSE (optional) | stdio for VS Code, SSE for remote deployment |
 | **IMAP** | `imapflow` | Modern IMAP client, supports IDLE, OAuth2 |
 | **POP3** | `node-pop3` or custom implementation | Full POP3 support |
